@@ -1,6 +1,6 @@
 /**
  * Campaign model
- * One marketing post/idea that you'll test against personas.
+ * One marketing post/idea that you'll test against personas from one or more persona sets.
  */
 
 const mongoose = require('mongoose');
@@ -31,6 +31,11 @@ const CampaignSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please add a sample size'],
     max: [1000, 'Sample size cannot be more than 1000']
+  },
+  personaSetIds: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'PersonaSet',
+    required: [true, 'Please add at least one persona set ID']
   },
   createdAt: {
     type: Date,

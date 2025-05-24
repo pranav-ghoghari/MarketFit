@@ -1,15 +1,15 @@
 /**
  * Persona model
- * Each persona is generated per campaign. We keep them flat for easy indexing and querying.
+ * Each persona belongs to a persona set and can be reused across multiple campaigns.
  */
 
 const mongoose = require('mongoose');
 
 const PersonaSchema = new mongoose.Schema({
-  campaignId: {
+  setId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Campaign',
-    required: [true, 'Please add a campaign ID']
+    ref: 'PersonaSet',
+    required: [true, 'Please add a persona set ID']
   },
   name: {
     type: String,
@@ -57,7 +57,7 @@ const PersonaSchema = new mongoose.Schema({
   }
 });
 
-// Create index on campaignId as recommended
-PersonaSchema.index({ campaignId: 1 });
+// Create index on setId as recommended
+PersonaSchema.index({ setId: 1 });
 
 module.exports = mongoose.model('Persona', PersonaSchema);
