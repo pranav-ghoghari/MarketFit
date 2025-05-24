@@ -1,6 +1,6 @@
 /**
- * User model example
- * This is a sample model using Mongoose for MongoDB
+ * User model
+ * Tracks each account or organization using the system.
  */
 
 const mongoose = require('mongoose');
