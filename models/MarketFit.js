@@ -15,7 +15,7 @@ const MarketFitSchema = new mongoose.Schema({
   description: {
     type: String,
     required: false,
-    maxlength: [500, 'Description cannot be more than 500 characters']
+    maxlength: [2000, 'Description cannot be more than 500 characters']
   },
   value: {
     type: Number,
