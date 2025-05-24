@@ -7,7 +7,8 @@ const { serve } = require('inngest/express');
 const { inngest } = require('./config/inngest');
 
 // Import Inngest functions
-const inngestFunctions = require('./functions/inngest/openrouter');
+const openRouterFunctions = require('./functions/inngest/openrouter');
+const reactionFunctions = require('./functions/inngest/reactions');
 
 // Import routes
 const routes = require('./routes');
@@ -31,7 +32,10 @@ app.get('/', (req, res) => {
 app.use('/api/inngest', serve({ 
   client: inngest,
   signingKey: process.env.INNGEST_SIGNING_KEY,
-  functions: Object.values(inngestFunctions)
+  functions: [
+    ...Object.values(openRouterFunctions),
+    ...Object.values(reactionFunctions)
+  ]
 }));
 
 // API Routes

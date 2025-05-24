@@ -30,7 +30,7 @@ const ReactionSchema = new mongoose.Schema({
   feedback: {
     type: String,
     required: [true, 'Please add feedback'],
-    maxlength: [2000, 'Feedback cannot be more than 2000 characters']
+    maxlength: [5000, 'Feedback cannot be more than 2000 characters']
   },
   createdAt: {
     type: Date,

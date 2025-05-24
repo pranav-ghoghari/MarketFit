@@ -7,6 +7,7 @@ const inngestRoutes = require('./inngest.routes');
 const projectsRoutes = require('./projects');
 const campaignsRoutes = require('./campaigns');
 const personasRoutes = require('./personas');
+const reactionsRoutes = require('./reactions');
 
 // Define base routes
 router.get('/health', (req, res) => {
@@ -19,5 +20,6 @@ router.use('/inngest-api', inngestRoutes);
 router.use('/projects', projectsRoutes);
 router.use('/campaigns', campaignsRoutes);
 router.use('/personas', personasRoutes);
+router.use('/reactions', reactionsRoutes);
 
 module.exports = router;
