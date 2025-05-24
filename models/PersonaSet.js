@@ -21,6 +21,15 @@ const PersonaSetSchema = new mongoose.Schema({
     type: String,
     maxlength: [5000, 'Description cannot be more than 500 characters']
   },
+  sampleSize: {
+    type: Number,
+    default: 500,
+    max: [1000, 'Sample size cannot be more than 1000']
+  },
+  segmentationGrid: {
+    type: Object,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now

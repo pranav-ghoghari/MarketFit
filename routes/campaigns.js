@@ -3,6 +3,8 @@ const router = express.Router();
 const Campaign = require('../models/Campaign');
 const PersonaSet = require('../models/PersonaSet');
 const Project = require('../models/Project');
+const { generateSegmentationGrid } = require('../utils/segmentationGrid');
+const { generatePersonas } = require('../utils/generatePersonas');
 
 /**
  * @route   POST /api/campaigns/createcampaign
@@ -28,10 +30,37 @@ router.post('/createcampaign', async (req, res) => {
     const personaSet = await PersonaSet.create({
       ownerId: project.ownerId,
       name: `${title} Personas`,
-      description: targetDescription || `Auto-generated for campaign "${title}"`
+      description: targetDescription || `Auto-generated for campaign "${title}"`,
+      sampleSize: sampleSize || 500
     });
 
-    // 4) Create the Campaign with that personaSet ID
+    // 4) Generate segmentation grid if targetDescription is provided
+    if (targetDescription) {
+      try {
+        const segmentationGrid = await generateSegmentationGrid(targetDescription);
+        // Update the personaSet with the segmentation grid
+        await PersonaSet.findByIdAndUpdate(personaSet._id, { segmentationGrid });
+        personaSet.segmentationGrid = segmentationGrid;
+
+        // 4.5) Generate evenly distributed personas from the segmentation grid
+        try {
+          const personas = await generatePersonas(
+            segmentationGrid, 
+            personaSet._id, 
+            personaSet.sampleSize
+          );
+          console.log(`Generated ${personas.length} unique personas for personaSet ${personaSet._id}`);
+        } catch (personaError) {
+          console.error('Error generating personas:', personaError);
+          // Continue with creation even if persona generation fails
+        }
+      } catch (error) {
+        console.error('Error generating segmentation grid:', error);
+        // Continue with creation even if segmentation fails
+      }
+    }
+
+    // 5) Create the Campaign with that personaSet ID
     const campaign = await Campaign.create({
       projectId,
       title,
@@ -43,7 +72,7 @@ router.post('/createcampaign', async (req, res) => {
 
     res.status(201).json({
       success: true,
-      data: { campaign, personaSetId: personaSet._id }
+      data: { campaign, personaSet }
     });
   } catch (err) {
     console.error(err);
