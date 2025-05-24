@@ -51,6 +51,10 @@ const PersonaSchema = new mongoose.Schema({
       }
     }
   },
+  backstory: {
+    type: String,
+    default: ''
+  },
   createdAt: {
     type: Date,
     default: Date.now
