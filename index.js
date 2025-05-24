@@ -3,6 +3,11 @@ const cors = require('cors');
 const morgan = require('morgan');
 const config = require('./config');
 const connectDB = require('./config/database');
+const { serve } = require('inngest/express');
+const { inngest } = require('./config/inngest');
+
+// Import Inngest functions
+const inngestFunctions = require('./functions/inngest/openrouter');
 
 // Import routes
 const routes = require('./routes');
@@ -21,6 +26,13 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to MarketFit API' });
 });
+
+// Inngest endpoint
+app.use('/api/inngest', serve({ 
+  client: inngest,
+  signingKey: process.env.INNGEST_SIGNING_KEY,
+  functions: Object.values(inngestFunctions)
+}));
 
 // API Routes
 app.use('/api', routes);

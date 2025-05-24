@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Import route modules
 const testRoutes = require('./test.routes');
+const inngestRoutes = require('./inngest.routes');
 
 // Define base routes
 router.get('/health', (req, res) => {
@@ -11,5 +12,6 @@ router.get('/health', (req, res) => {
 
 // Use imported route modules
 router.use('/test', testRoutes);
+router.use('/inngest-api', inngestRoutes);
 
 module.exports = router;
