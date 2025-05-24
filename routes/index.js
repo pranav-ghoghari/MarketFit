@@ -5,6 +5,7 @@ const router = express.Router();
 const testRoutes = require('./test.routes');
 const inngestRoutes = require('./inngest.routes');
 const projectsRoutes = require('./projects');
+const campaignsRoutes = require('./campaigns');
 
 // Define base routes
 router.get('/health', (req, res) => {
@@ -15,5 +16,6 @@ router.get('/health', (req, res) => {
 router.use('/test', testRoutes);
 router.use('/inngest-api', inngestRoutes);
 router.use('/projects', projectsRoutes);
+router.use('/campaigns', campaignsRoutes);
 
 module.exports = router;

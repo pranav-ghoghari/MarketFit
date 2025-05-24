@@ -19,24 +19,21 @@ const CampaignSchema = new mongoose.Schema({
   },
   copy: {
     type: String,
-    required: [true, 'Please add marketing copy'],
     maxlength: [5000, 'Copy cannot be more than 5000 characters']
   },
   targetDescription: {
     type: String,
-    required: [true, 'Please add a target audience description'],
-    maxlength: [2000, 'Target description cannot be more than 2000 characters']
+    maxlength: [5000, 'Target description cannot be more than 2000 characters']
   },
   sampleSize: {
     type: Number,
-    required: [true, 'Please add a sample size'],
+    default: 500,
     max: [1000, 'Sample size cannot be more than 1000']
   },
-  personaSetIds: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'PersonaSet',
-    required: [true, 'Please add at least one persona set ID']
-  },
+  personaSetIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PersonaSet'
+  }],
   createdAt: {
     type: Date,
     default: Date.now

@@ -19,7 +19,7 @@ const PersonaSetSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    maxlength: [500, 'Description cannot be more than 500 characters']
+    maxlength: [5000, 'Description cannot be more than 500 characters']
   },
   createdAt: {
     type: Date,
